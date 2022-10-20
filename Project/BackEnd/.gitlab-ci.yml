@@ -1,0 +1,22 @@
+stages:
+  - deploy
+
+variables:
+  DB_IP: ec2-34-247-72-29.eu-west-1.compute.amazonaws.com
+  DB_PORT: 5432
+  DB_USER: fmmompqooyqcli
+  DB_PASSWORD: 8310860faf04a09c8d1a487fb9b38d9ed2a9ececb208fd741ea7834c0796bbd3
+  DB_DBNAME: d8sba5tr39oh6d
+
+
+deploy:
+  stage: deploy
+  image: ruby:2.4
+  script:
+    - gem install faraday -v 1.10.0
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=licenta-backend-gr --api-key=$HEROKU_API_KEY
+  only:
+    - master
